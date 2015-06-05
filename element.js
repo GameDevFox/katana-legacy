@@ -1,4 +1,4 @@
-var p = require("./pipes");
+var pipes = require("./pipes");
 
 var element = {};
 
@@ -39,8 +39,8 @@ element.getPosPoint = getPosPoint;
 var getMovePoint = function(elem) {
 	var posPoint = getPosPoint(elem);
 
-	var result = p.mapGroup(posPoint, function(value) {
-		return p.buildIncr(value);
+	var result = pipes.mapGroup(posPoint, function(value) {
+		return pipes.buildIncr(value);
 	});
 	return result;
 };

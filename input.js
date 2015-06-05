@@ -1,6 +1,6 @@
 var _ = require("lodash");
 
-var p = require("./pipes");
+var pipes = require("./pipes");
 
 var input = {};
 
@@ -21,7 +21,7 @@ var buildWASD = function(keyboard, keys) {
 	var wasd = _.mapValues(keys, function(value) {
 		var key = keyboard.getKey(value);
 		key.preventDefault = true;
-		return p.split(key);
+		return pipes.split(key);
 	});
 	return wasd;
 };
