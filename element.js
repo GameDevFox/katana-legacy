@@ -46,4 +46,26 @@ var getMovePoint = function(elem) {
 };
 element.getMovePoint = getMovePoint;
 
+var buildElementBuilder = function(elementData) {
+	var elementBuilder = function(id, data) {
+		var markup = elementData[id];
+		if(markup == null)
+			throw "Element id: "+id+" doesn't exist";
+
+		var el = $(markup);
+		el.addClass(id);
+
+		if(data != null) {
+			el = new Vue({
+				el: el.get(0),
+				data: data
+			});
+		}
+		return el;
+
+	};
+	return elementBuilder;
+};
+element.buildElementBuilder = buildElementBuilder;
+
 module.exports = element;
