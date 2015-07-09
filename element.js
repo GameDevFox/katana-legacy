@@ -39,8 +39,8 @@ element.getPosPoint = getPosPoint;
 var getMovePoint = function(elem) {
 	var posPoint = getPosPoint(elem);
 
-	var result = pipes.mapGroup(posPoint, function(value) {
-		return pipes.buildIncr(value);
+	var result = pipes.mapGroup(posPoint, function(point) {
+		return pipes.buildIncr(point);
 	});
 	return result;
 };
