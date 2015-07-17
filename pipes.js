@@ -3,6 +3,14 @@ var func = require("./func");
 
 var pipes = {};
 
+var pipe = function() {
+	var pipe = func.fo(function() {
+		arguments.callee.$out.apply(this, arguments);
+	});
+	return pipe;
+};
+pipes.pipe = pipe;
+
 var buildValve = function() {
 	var isOpen = 0;
 
