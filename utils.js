@@ -1,7 +1,7 @@
 var loadGlobally = function(module) {
-	for(i in module) {
+	for(var i in module) {
 		global[i] = module[i];
 	}
-}
+};
 
-module.exports = { loadGlobally: loadGlobally }
+module.exports = { loadGlobally: loadGlobally };

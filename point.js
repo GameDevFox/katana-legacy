@@ -3,7 +3,7 @@ var point = {};
 var buildPoint = function(val) {
 	var value = val;
 	var result = function(val) {
-		if(arguments.length != 0)
+		if(arguments.length !== 0)
 			value = val;
 		return value;
 	};
@@ -15,7 +15,7 @@ var buildGroup = function(val) {
 	var value = val;
 	var result = function(key, val) {
 		var argLen = arguments.length;
-		if(argLen == 0)
+		if(argLen === 0)
 			return value;
 		if(argLen == 2)
 			value[key] = val;

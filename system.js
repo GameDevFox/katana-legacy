@@ -8,7 +8,7 @@ system.labeledOut = function(label) {
 	return function(value) {
 		console.log(label+": "+value);
 	};
-}
+};
 
 system.time = function() {
 	return new Date().getTime();

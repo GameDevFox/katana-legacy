@@ -28,10 +28,10 @@ module.exports = function(elem) {
 	{
 		var keyCode = e.keyCode;
 		var key = keys[keyCode];
-		if(key == undefined)
+		if(key === undefined)
 			return;
 
-		if(key.state == 0) {
+		if(!key.state) {
 			key.state = 1;
 			key.$out(1);
 		}
@@ -44,7 +44,7 @@ module.exports = function(elem) {
 	{
 		var keyCode = e.keyCode;
 		var key = keys[keyCode];
-		if(key == undefined)
+		if(key === undefined)
 			return;
 
 		if(key.state == 1) {
@@ -62,7 +62,7 @@ module.exports = function(elem) {
 				code = keyCodes[code];
 
 			var key = keys[code];
-			if(key == undefined) {
+			if(key === undefined) {
 				key = func.fo({
 					state: false,
 					code: code,

@@ -53,7 +53,7 @@ var chain = function() {
 
 	result.type = "chain";
 	return result;
-}
+};
 pipes.chain = chain;
 
 var buildSplit = function() {
@@ -67,7 +67,7 @@ var buildSplit = function() {
 
 			outputs.splice(index, 1);
 		});
-	}
+	};
 
 	var split = func.fo(function() {
 		var splitArgs = arguments;
@@ -76,7 +76,7 @@ var buildSplit = function() {
 		});
 	});
 	split.out = function(input) {
-		if(input == undefined)
+		if(input === undefined)
 			return outputs;
 		else {
 			if(typeof input != "object")
@@ -88,25 +88,23 @@ var buildSplit = function() {
 	};
 	split.type = "split";
 	return split;
-}
+};
 pipes.buildSplit = buildSplit;
 
 var split = function(node) {
 	var split = buildSplit();
 	return chain(node, split);
-}
+};
 pipes.split = split;
 
 var buildMerge = function(defaults, mergeFunc, asArray) {
-	if(asArray == undefined)
-		asArray = false;
 
 	var merge = function() {
 		var data = _.clone(defaults);
 		var inputs = asArray ? [] : {};
 
 		var target = func.fo(function(outMap) {
-			if(arguments.length == 0)
+			if(arguments.length === 0)
 				return inputs;
 			else {
 				autoPipe(outMap, arguments.callee);
@@ -117,7 +115,7 @@ var buildMerge = function(defaults, mergeFunc, asArray) {
 		var push = function() {
 			var value = mergeFunc.apply(this, data);
 			target.$out(value);
-		}
+		};
 		var args = func.getArgs(mergeFunc);
 		_.each(args, function(arg, index) {
 			var key = asArray ? index : arg;
@@ -187,7 +185,7 @@ pipes.delta = delta;
 
 var buildMultiply = function(magValue) {
 
-	var mag = arguments.length == 0 ? 1 : magValue;
+	var mag = arguments.length === 0 ? 1 : magValue;
 
 	var multiply = func.fo(function(value) {
 		var output = value * mag;
@@ -226,7 +224,7 @@ var autoPipe = function(output, input) {
 
 	_.each(output, function(value, key) {
 		var inVal = inputNodes[key];
-		if(inVal != undefined)
+		if(inVal !== undefined)
 			value.out(inVal);
 	});
 	return input;
@@ -235,14 +233,14 @@ pipes.autoPipe = autoPipe;
 
 var group = function(obj) {
 	var result = function(outMap) {
-		if(arguments.length == 0)
+		if(arguments.length === 0)
 			return obj;
 		else {
 			return autoPipe(outMap, obj);
 		}
 	};
 	result.out = function(inMap) {
-		if(arguments.length == 0)
+		if(arguments.length === 0)
 			return obj;
 		else {
 			return autoPipe(obj, inMap);
@@ -250,7 +248,7 @@ var group = function(obj) {
 	};
 	result.sub = function(property) {
 		return _.pluck(obj, property);
-	}
+	};
 	result.type = "group";
 	return result;
 };

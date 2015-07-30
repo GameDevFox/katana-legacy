@@ -9,7 +9,7 @@ var fo = function(func) {
 	_.merge(func, {
 		$out: noop,
 		out: function(input) {
-			if(arguments.length != 0) {
+			if(arguments.length !== 0) {
 				func.$out = input;
 				return input;
 			} else

@@ -11,7 +11,7 @@ var buildGameTime = function() {
 	var timePump = pipes.pump(system.time);
 	var timePlus = pipes.plus(-now);
 
-	var result = pipes.chain(timePump, timePlus)
+	var result = pipes.chain(timePump, timePlus);
 	return result;
 };
 time.buildGameTime = buildGameTime;
