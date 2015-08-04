@@ -1,4 +1,6 @@
 var pipes = require("./pipes");
+var not$ = require("./not-jquery");
+
 var Vue = require("vue");
 
 var element = {};
@@ -6,9 +8,9 @@ var element = {};
 var getCssPoint = function(elem, cssName) {
 	var result = function(value) {
 		if(arguments.length === 0)
-			return elem.css(cssName);
+			return not$.css(elem, cssName);
 
-		elem.css(cssName, value);
+		not$.css(elem, cssName, value);
 	};
 	return result;
 };
@@ -17,12 +19,12 @@ element.getCssPoint = getCssPoint;
 var getCssPixelPoint = function(elem, cssName) {
 	var result = function(value) {
 		if(arguments.length === 0) {
-			var rawValue = elem.css(cssName);
+			var rawValue = not$.css(elem, cssName);
 			var valueStr = rawValue.substring(0, rawValue.length-2);
 			return parseFloat(valueStr);
 		}
 
-		elem.css(cssName, value+"px");
+		not$.css(elem, cssName, value+"px");
 	};
 	return result;
 };
@@ -53,12 +55,12 @@ var buildElementBuilder = function(elementData) {
 		if(!markup)
 			throw "Element id: "+id+" doesn't exist";
 
-		var el = $(markup);
-		el.addClass(id);
+		var el = not$.parseHtml(markup)[0];
+		el.classList.add(id);
 
 		if(data !== undefined) {
 			el = new Vue({
-				el: el.get(0),
+				el: el,
 				data: data
 			});
 		}

@@ -4,8 +4,8 @@ var func = require("./func");
 var pipes = {};
 
 var pipe = function() {
-	var pipe = func.fo(function() {
-		arguments.callee.$out.apply(this, arguments);
+	var pipe = func.fo(function pipeFn() {
+		pipeFn.$out.apply(this, arguments);
 	});
 	return pipe;
 };
@@ -14,9 +14,9 @@ pipes.pipe = pipe;
 var buildValve = function() {
 	var isOpen = 0;
 
-	var valve = func.fo(function() {
+	var valve = func.fo(function valveFn() {
 		if(isOpen) {
-			arguments.callee.$out.apply(this, arguments);
+			valveFn.$out.apply(this, arguments);
 		}
 	});
 	valve.open = function(open) {
@@ -103,12 +103,12 @@ var buildMerge = function(defaults, mergeFunc, asArray) {
 		var data = _.clone(defaults);
 		var inputs = asArray ? [] : {};
 
-		var target = func.fo(function(outMap) {
+		var target = func.fo(function targetFn(outMap) {
 			if(arguments.length === 0)
 				return inputs;
 			else {
-				autoPipe(outMap, arguments.callee);
-				return arguments.callee;
+				autoPipe(outMap, targetFn);
+				return targetFn;
 			}
 		});
 
@@ -137,9 +137,9 @@ var buildMergeArray = _.bind(buildMerge, this, _, _, true);
 pipes.buildMergeArray = buildMergeArray;
 
 var pump = function(input) {
-	var result = func.fo(function() {
+	var result = func.fo(function pumpFn() {
 		var output = input();
-		arguments.callee.$out(output);
+		pumpFn.$out(output);
 	});
 	result.type = "pump";
 	return result;
@@ -147,9 +147,9 @@ var pump = function(input) {
 pipes.pump = pump;
 
 var plus = function(plusValue) {
-	var result = func.fo(function(value) {
+	var result = func.fo(function plusFn(value) {
 		var output = value + plusValue;
-		arguments.callee.$out(output);
+		plusFn.$out(output);
 	});
 	result.type = "plus";
 	return result;
@@ -157,8 +157,8 @@ var plus = function(plusValue) {
 pipes.plus = plus;
 
 var buildInvert = function() {
-	var result = func.fo(function(value) {
-		arguments.callee.$out(-value);
+	var result = func.fo(function invertFn(value) {
+		invertFn.$out(-value);
 	});
 	result.type = "invert";
 	return result;
@@ -173,10 +173,10 @@ pipes.invert = invert;
 
 var delta = function() {
 	var lastValue = 0;
-	var result = func.fo(function(value) {
+	var result = func.fo(function deltaFn(value) {
 		var deltaValue = value - lastValue;
 		lastValue = value;
-		arguments.callee.$out(deltaValue);
+		deltaFn.$out(deltaValue);
 	});
 	result.type = "delta";
 	return result;
