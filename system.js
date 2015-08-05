@@ -1,17 +1,13 @@
-var system = {};
-
-system.out = function(value) {
+export function out(value) {
 	console.log(value);
 };
 
-system.labeledOut = function(label) {
+export function labeledOut(label) {
 	return function(value) {
 		console.log(label+": "+value);
 	};
 };
 
-system.time = function() {
+export function time() {
 	return new Date().getTime();
 };
-
-module.exports = system;

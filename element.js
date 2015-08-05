@@ -1,7 +1,7 @@
-var pipes = require("./pipes");
-var not$ = require("./not-jquery");
+import pipes from "./pipes";
+import not$ from "./not-jquery";
 
-var Vue = require("vue");
+import Vue from "vue";
 
 var element = {};
 
@@ -71,4 +71,4 @@ var buildElementBuilder = function(elementData) {
 };
 element.buildElementBuilder = buildElementBuilder;
 
-module.exports = element;
+export default element;

@@ -1,4 +1,4 @@
-var func = require("./func");
+import func from "./func";
 
 var keyCodes = {
 	"backspace": 8,
@@ -20,7 +20,7 @@ var keyCodes = {
 	"z": 90
 };
 
-module.exports = function(elem) {
+export default function(elem) {
 
 	var keys = {};
 

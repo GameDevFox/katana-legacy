@@ -1,6 +1,6 @@
-var _ = require("lodash");
+import _ from "lodash";
 
-var pipes = require("./pipes");
+import pipes from "./pipes";
 
 var input = {};
 
@@ -27,4 +27,4 @@ var buildWASD = function(keyboard, keys) {
 };
 input.buildWASD = buildWASD;
 
-module.exports = input;
+exports default input;

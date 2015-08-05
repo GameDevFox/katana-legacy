@@ -1,7 +1,7 @@
 var time = {};
 
-var pipes = require("./pipes");
-var system = require("./system");
+import pipes from "./pipes";
+import system from "./system";
 
 // TODO: Fix this so that the offset is set to "system.time"
 // at the first invocation of the pump (use sum instead of plus?)
@@ -16,4 +16,4 @@ var buildGameTime = function() {
 };
 time.buildGameTime = buildGameTime;
 
-module.exports = time;
+export default time;
