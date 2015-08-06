@@ -1,5 +1,5 @@
-import pipes from "./pipes";
-import not$ from "./not-jquery";
+import * as pipes from "./pipes";
+import * as not$ from "./not-jquery";
 
 import Vue from "vue";
 

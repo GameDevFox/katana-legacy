@@ -1,7 +1,5 @@
-var time = {};
-
-import pipes from "./pipes";
-import system from "./system";
+import * as pipes from "./pipes";
+import * as system from "./system";
 
 // TODO: Fix this so that the offset is set to "system.time"
 // at the first invocation of the pump (use sum instead of plus?)
@@ -14,6 +12,5 @@ var buildGameTime = function() {
 	var result = pipes.chain(timePump, timePlus);
 	return result;
 };
-time.buildGameTime = buildGameTime;
 
-export default time;
+export default { buildGameTime };

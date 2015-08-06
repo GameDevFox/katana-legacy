@@ -1,13 +1,15 @@
-export function out(value) {
+var log = function(value) {
 	console.log(value);
 };
 
-export function labeledOut(label) {
+var labeledLog = function(label) {
 	return function(value) {
 		console.log(label+": "+value);
 	};
 };
 
-export function time() {
+var time = function() {
 	return new Date().getTime();
 };
+
+export default { log, labeledLog, time };

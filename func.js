@@ -1,11 +1,8 @@
-var _ = require("lodash");
+import _ from "lodash";
 
-var func = {};
+export function noop() {}
 
-var noop = function() {};
-func.noop = noop;
-
-var fo = function(func) {
+export function fo(func) {
 	_.merge(func, {
 		$out: noop,
 		out: function(input) {
@@ -17,16 +14,12 @@ var fo = function(func) {
 		}
 	});
 	return func;
-};
-func.fo = fo;
+}
 
-var getArgs = function(func) {
+export function getArgs(func) {
 	var funcStr = func.toString();
 	var openParenIdx = funcStr.indexOf("(");
 	var closeParanIdx = funcStr.indexOf(")");
 	var argStr = funcStr.substring(openParenIdx+1, closeParanIdx);
 	return _.remove(argStr.split(/[\s,]+/));
-};
-func.getArgs = getArgs;
-
-module.exports = func;
+}

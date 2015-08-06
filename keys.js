@@ -1,4 +1,4 @@
-import func from "./func";
+import { fo } from "./func";
 
 var keyCodes = {
 	"backspace": 8,
@@ -20,7 +20,7 @@ var keyCodes = {
 	"z": 90
 };
 
-export default function(elem) {
+var buildKeys = function(elem) {
 
 	var keys = {};
 
@@ -63,7 +63,7 @@ export default function(elem) {
 
 			var key = keys[code];
 			if(key === undefined) {
-				key = func.fo({
+				key = fo({
 					state: false,
 					code: code,
 					preventDefault: false
@@ -75,3 +75,4 @@ export default function(elem) {
 	};
 	return result;
 };
+export default buildKeys;

@@ -1,17 +1,14 @@
-var _ = require("lodash");
-var func = require("./func");
+import _ from "lodash";
+import * as func from "./func";
 
-var pipes = {};
-
-var pipe = function() {
-	var pipe = func.fo(function pipeFn() {
+export function pipe() {
+	var result = func.fo(function pipeFn() {
 		pipeFn.$out.apply(this, arguments);
 	});
-	return pipe;
-};
-pipes.pipe = pipe;
+	return result;
+}
 
-var buildValve = function() {
+export function buildValve() {
 	var isOpen = 0;
 
 	var valve = func.fo(function valveFn() {
@@ -24,18 +21,16 @@ var buildValve = function() {
 	};
 	valve.type = "valve";
 	return valve;
-};
-pipes.buildValve = buildValve;
+}
 
-var valve = function(input, output) {
-	var valve = buildValve();
-	input.out(valve);
-	valve.out(output);
-	return valve.open;
-};
-pipes.valve = valve;
+export function valve(input, output) {
+	var result = buildValve();
+	input.out(result);
+	result.out(output);
+	return result.open;
+}
 
-var chain = function() {
+export function chain() {
 	if(arguments.length < 2)
 		throw new Error("Must have more than two nodes to wrap");
 
@@ -53,10 +48,9 @@ var chain = function() {
 
 	result.type = "chain";
 	return result;
-};
-pipes.chain = chain;
+}
 
-var buildSplit = function() {
+export function buildSplit() {
 
 	var outputs = [];
 	outputs.remove = function() {
@@ -88,16 +82,14 @@ var buildSplit = function() {
 	};
 	split.type = "split";
 	return split;
-};
-pipes.buildSplit = buildSplit;
+}
 
-var split = function(node) {
-	var split = buildSplit();
-	return chain(node, split);
-};
-pipes.split = split;
+export function split(node) {
+	var result = buildSplit();
+	return chain(node, result);
+}
 
-var buildMerge = function(defaults, mergeFunc, asArray) {
+export function buildMerge(defaults, mergeFunc, asArray) {
 
 	var merge = function() {
 		var data = _.clone(defaults);
@@ -130,48 +122,43 @@ var buildMerge = function(defaults, mergeFunc, asArray) {
 	};
 	merge.type = "merge";
 	return merge;
-};
-pipes.buildMerge = buildMerge;
+}
 
 var buildMergeArray = _.bind(buildMerge, this, _, _, true);
-pipes.buildMergeArray = buildMergeArray;
+export { buildMergeArray };
 
-var pump = function(input) {
+export function pump(input) {
 	var result = func.fo(function pumpFn() {
 		var output = input();
 		pumpFn.$out(output);
 	});
 	result.type = "pump";
 	return result;
-};
-pipes.pump = pump;
+}
 
-var plus = function(plusValue) {
+export function plus(plusValue) {
 	var result = func.fo(function plusFn(value) {
 		var output = value + plusValue;
 		plusFn.$out(output);
 	});
 	result.type = "plus";
 	return result;
-};
-pipes.plus = plus;
+}
 
-var buildInvert = function() {
+export function buildInvert() {
 	var result = func.fo(function invertFn(value) {
 		invertFn.$out(-value);
 	});
 	result.type = "invert";
 	return result;
-};
-pipes.buildInvert = buildInvert;
+}
 
-var invert = function(node) {
-	var invert = buildInvert();
-	return chain(node, invert);
-};
-pipes.invert = invert;
+export function invert(node) {
+	var result = buildInvert();
+	return chain(node, result);
+}
 
-var delta = function() {
+export function delta() {
 	var lastValue = 0;
 	var result = func.fo(function deltaFn(value) {
 		var deltaValue = value - lastValue;
@@ -180,10 +167,9 @@ var delta = function() {
 	});
 	result.type = "delta";
 	return result;
-};
-pipes.delta = delta;
+}
 
-var buildMultiply = function(magValue) {
+export function buildMultiply(magValue) {
 
 	var mag = arguments.length === 0 ? 1 : magValue;
 
@@ -197,27 +183,24 @@ var buildMultiply = function(magValue) {
 
 	multiply.type = "multiply";
 	return multiply;
-};
-pipes.buildMultiply = buildMultiply;
+}
 
-var multiply = function(node) {
-	var multiply = buildMultiply();
-	chain(node, multiply);
-	return multiply.magnitude;
-};
-pipes.multiply = multiply;
+export function multiply(node) {
+	var result = buildMultiply();
+	chain(node, result);
+	return result.magnitude;
+}
 
-var buildIncr = function(point) {
+export function buildIncr(point) {
 	var incr = function(value) {
 		var result = point() + value;
 		point(result);
 	};
 	incr.type = "incr";
 	return incr;
-};
-pipes.buildIncr = buildIncr;
+}
 
-var autoPipe = function(output, input) {
+export function autoPipe(output, input) {
 	var inputNodes = input;
 	if(typeof input == "function")
 		inputNodes = input();
@@ -228,10 +211,9 @@ var autoPipe = function(output, input) {
 			value.out(inVal);
 	});
 	return input;
-};
-pipes.autoPipe = autoPipe;
+}
 
-var group = function(obj) {
+export function group(obj) {
 	var result = function(outMap) {
 		if(arguments.length === 0)
 			return obj;
@@ -251,8 +233,7 @@ var group = function(obj) {
 	};
 	result.type = "group";
 	return result;
-};
-pipes.group = group;
+}
 
 var buildCompare = buildMergeArray([0, 0], function(a, b) {
 	if(a == b)
@@ -260,23 +241,21 @@ var buildCompare = buildMergeArray([0, 0], function(a, b) {
 	else
 		return a < b ? -1 : 1;
 });
-pipes.buildCompare = buildCompare;
+export { buildCompare };
 
-var compare = function(a, b) {
-	var compare = buildCompare();
-	compare([a, b]);
-	compare.type = "compare";
-	return compare;
-};
-pipes.compare = compare;
+export function compare(a, b) {
+	var result = buildCompare();
+	result([a, b]);
+	result.type = "compare";
+	return result;
+}
 
-var mapGroup = function(objs, func) {
+export function mapGroup(objs, func) {
 	var mapFunc = _.isArray(objs) ? _.map : _.mapValues;
 	var result = mapFunc(objs, func);
 	result = group(result);
 	return result;
-};
-pipes.mapGroup = mapGroup;
+}
 
 ///////////
 // Extra //
@@ -285,10 +264,10 @@ pipes.mapGroup = mapGroup;
 var buildXY2Point = buildMergeArray([0, 0], function(x, y) {
 	return [x, y];
 });
-pipes.buildXY2Point = buildXY2Point;
+export { buildXY2Point };
 
 // mapAndPipeGroup ???
-var all = function(grp, nodeBuilder) {
+export function all(grp, nodeBuilder) {
 	var result = _.mapValues(grp.out(), function(value, key) {
 		var node = nodeBuilder();
 		return chain(value, node);
@@ -296,6 +275,4 @@ var all = function(grp, nodeBuilder) {
 	result = group(result);
 	result.type = "all";
 	return result;
-};
-
-module.exports = pipes;
+}
