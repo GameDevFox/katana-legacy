@@ -1,15 +1,12 @@
-var point = {};
-
 var buildPoint = function(val) {
 	var value = val;
 	var result = function(val) {
-		if(arguments.length !== 0)
+		if(val !== undefined)
 			value = val;
 		return value;
 	};
 	return result;
 };
-point.buildPoint = buildPoint;
 
 var buildGroup = function(val) {
 	var value = val;
@@ -24,9 +21,11 @@ var buildGroup = function(val) {
 	};
 	return result;
 };
-point.buildGroup = buildGroup;
 
-module.exports = point;
+export default {
+	buildPoint,
+	buildGroup
+};
 
 /*
 val() 		- get

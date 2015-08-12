@@ -27,6 +27,10 @@ export function valve(input, output) {
 	var result = buildValve();
 	input.out(result);
 	result.out(output);
+
+	// Circular Reference
+	result.open.valve = result;
+
 	return result.open;
 }
 
